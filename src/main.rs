@@ -28,6 +28,7 @@ fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T,T)> {
     }
 }
 
+/// Parse string in a complex number
 fn  parse_complex(s: &str) -> Option<Complex<f64>> {
     match parse_pair(s, ',') {
         Some((re, im)) => Some(Complex { re, im }),
