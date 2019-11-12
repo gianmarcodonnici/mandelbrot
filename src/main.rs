@@ -1,6 +1,10 @@
 extern crate num;
+extern crate image;
 use num::Complex;
 use std::str::FromStr;
+use image::ColorType;
+use image::png::PNGEncoder;
+use std::fs::File;
 
 /// Try to determine if 'c' is in the mandelbrot set, using at most 'limit' iterations
 /// to decide.
@@ -77,6 +81,15 @@ fn render(pixels: &mut [u8],
             };
         }
     }
+}
+
+/// Writes buffer 'pixels' of 'bounds' dimensions to 'filename'
+fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize)) 
+    -> Result<(), std::io::Error> {
+    let output = File::create(filename)?;
+    let encoder = PNGEncoder::new(output);
+    encoder.encode(&pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+    Ok(())
 }
 
 
